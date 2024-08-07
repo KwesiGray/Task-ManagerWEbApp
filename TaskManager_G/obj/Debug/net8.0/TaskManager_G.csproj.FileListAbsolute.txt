@@ -1029,4 +1029,3 @@ C:\Users\Agent Breslin\source\repos\TaskManager_G\TaskManager_G\obj\Debug\net8.0
 C:\Users\Agent Breslin\source\repos\TaskManager_G\TaskManager_G\obj\Debug\net8.0\refint\TaskManager_G.dll
 C:\Users\Agent Breslin\source\repos\TaskManager_G\TaskManager_G\obj\Debug\net8.0\TaskManager_G.pdb
 C:\Users\Agent Breslin\source\repos\TaskManager_G\TaskManager_G\obj\Debug\net8.0\ref\TaskManager_G.dll
-C:\Users\Agent Breslin\source\repos\TaskManager_G\TaskManager_G\obj\Debug\net8.0\TaskManager_G.sourcelink.json
