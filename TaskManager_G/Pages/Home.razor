@@ -1,7 +1,235 @@
 ﻿@page "/"
+@page "/Taskmanager"
 
-<PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<PageTitle>TASK MANAGER APP</PageTitle>
 
-Welcome to your new app.
+<div class="container">
+
+    <h2>TASK MANAGER</h2>
+
+    <div class="task-input">
+        <label>
+            <b>TASK</b>
+            <input @bind="_TaskContent" placeholder="Enter a new Task" />
+            <div class="select">
+                <select id="priority-select" @bind="_TaskPriority">
+                    <option value="" disabled selected hidden>Select Priority</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+            </div>
+
+            <div>
+                <label>
+                    <b>Deadline</b>
+                    <input type="date" @bind="_TaskDeadline" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                </label>
+            </div>
+
+            <button type="button" @onclick="Save">Add Task</button>
+        </label>
+    </div>
+
+    @if (ShowConfirmDeleteOption)
+    {
+        <div class="confirmation-dialog">
+            Are you sure you want to delete this task?
+            <div>@_Task.TaskContent</div>
+            <div>
+                <button @onclick="() => CancelDeletion()">No</button>
+                <button @onclick="() => Delete(_Task)">Yes</button>
+            </div>
+        </div>
+    }
+
+    @if (ShowConfirmMarkAllDoneOption)
+    {
+        <div class="confirmation-dialog">
+            Are you sure you want to mark all tasks as done?
+            <div>
+                <button @onclick="() => CancelMarkAllDone()">No</button>
+                <button @onclick="() => MarkAllAsDone()">Yes</button>
+            </div>
+        </div>
+    }
+
+    <div>
+        @if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            <p style="color: red; font-weight:bold">@ErrorMessage</p>
+        }
+    </div>
+
+    <div class="task-list">
+        @if (Tasks.Count >= 2)
+        {
+            <button @onclick="ConfirmMarkAllDone" disabled="@IsMarkAllDoneButtonDisabled">Mark All as Done</button>
+            @if (ShowUndoMarkAllDoneOption)
+            {
+                <button @onclick="UndoMarkAllAsDone">Undo Mark All as Done</button>
+            }
+        }
+        <ul>
+            @foreach (var task in Tasks)
+            {
+                <li class="@GetPriorityClass(task.Priority)">
+                    <span style="text-decoration: @(task.IsDone ? "line-through":"none")">@task.TaskContent</span>
+                    <span> - @task.Deadline.ToShortDateString()</span>
+                    <button @onclick="() => Done(task)">Done</button>
+                    <button @onclick="() => Edit(task)">Edit</button>
+                    <button @onclick="() => ConfirmDelete(task)">Delete</button>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+
+
+
+
+
+@code {
+    private string ErrorMessage = string.Empty;
+    private string _TaskContent;
+    private string _TaskPriority = string.Empty; // Default to empty string
+    private DateTime _TaskDeadline = DateTime.Today; // Default deadline
+    private Task? _Task = null;
+
+    private List<Task> Tasks = new List<Task>();
+    private bool ShowConfirmDeleteOption = false;
+    private bool ShowConfirmMarkAllDoneOption = false;
+    private bool ShowUndoMarkAllDoneOption = false;
+    private bool IsMarkAllDoneButtonDisabled = false;
+
+
+
+    private void Save()
+    {
+        if (string.IsNullOrWhiteSpace(_TaskContent))
+        {
+            ErrorMessage = "Task-Field cannot be Empty!";
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(_TaskPriority))
+        {
+            ErrorMessage = "Task Priority must be selected!";
+            return;
+        }
+
+        if (_Task is null)
+        {
+            var task = new Task { TaskContent = _TaskContent, Priority = _TaskPriority, Deadline = _TaskDeadline };
+            Tasks.Add(task);
+        }
+        else
+        {
+            _Task.TaskContent = _TaskContent;
+            _Task.Priority = _TaskPriority;
+            _Task.Deadline = _TaskDeadline;
+            _Task = null;
+        }
+
+        _TaskContent = string.Empty;
+        _TaskPriority = string.Empty; // Reset to empty string
+        _TaskDeadline = DateTime.Today; // Reset to default deadline
+        ErrorMessage = string.Empty;
+    }
+
+    private void OnPriorityChange(ChangeEventArgs e)
+    {
+        _TaskPriority = e.Value.ToString();
+    }
+
+    public void EnterKey(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            Save();
+        }
+    }
+
+    private void Done(Task task)
+    {
+        task.IsDone = !task.IsDone;
+    }
+
+    private void Edit(Task task)
+    {
+        _Task = task;
+        _TaskContent = task.TaskContent;
+        _TaskPriority = task.Priority;
+        _TaskDeadline = task.Deadline;
+    }
+
+    private void CancelDeletion()
+    {
+        ShowConfirmDeleteOption = false;
+        _Task = null;
+    }
+
+    private void Delete(Task task)
+    {
+        Tasks.Remove(task);
+        ShowConfirmDeleteOption = false;
+        _Task = null;
+    }
+
+    private void ConfirmDelete(Task task)
+    {
+        _Task = task;
+        ShowConfirmDeleteOption = true;
+    }
+
+    private void ConfirmMarkAllDone()
+    {
+        ShowConfirmMarkAllDoneOption = true;
+    }
+
+    private void CancelMarkAllDone()
+    {
+        ShowConfirmMarkAllDoneOption = false;
+    }
+
+    private void MarkAllAsDone()
+    {
+        foreach (var task in Tasks)
+        {
+            task.IsDone = true;
+        }
+        ShowConfirmMarkAllDoneOption = false;
+        ShowUndoMarkAllDoneOption = true;
+        IsMarkAllDoneButtonDisabled = true;
+    }
+
+    private void UndoMarkAllAsDone()
+    {
+        foreach (var task in Tasks)
+        {
+            task.IsDone = false;
+        }
+        ShowUndoMarkAllDoneOption = false;
+        IsMarkAllDoneButtonDisabled = false;
+    }
+
+    private string GetPriorityClass(string priority)
+    {
+        return priority switch
+        {
+            "High" => "high-priority",
+            "Medium" => "medium-priority",
+            _ => "low-priority",
+        };
+    }
+
+    class Task
+    {
+        public string TaskContent { get; set; } = string.Empty;
+        public string Priority { get; set; } = string.Empty;
+        public DateTime Deadline { get; set; }
+        public bool IsDone { get; set; }
+    }
+}
