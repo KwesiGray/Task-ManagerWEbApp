@@ -25,6 +25,10 @@
       "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
     },
     {
+      "Id": "C:\\Users\\Agent Breslin\\source\\repos\\TaskManager_G\\TaskManager_G\\wwwroot\\css\\taskmanager.css",
+      "PackagePath": "staticwebassets\\css\\taskmanager.css"
+    },
+    {
       "Id": "C:\\Users\\Agent Breslin\\source\\repos\\TaskManager_G\\TaskManager_G\\wwwroot\\favicon.png",
       "PackagePath": "staticwebassets\\favicon.png"
     },
