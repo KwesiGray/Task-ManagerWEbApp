@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "TaskManager_G",
   "resources": {
-    "hash": "sha256-D3SOSio2TdlbhTlXKIFLlUStdCkneOG6a6AKIM7oRmw=",
+    "hash": "sha256-MTanHOuF5YOB4dymKTbdZrIYg5MPz+PSa+ou55uziBI=",
     "jsModuleNative": {
       "dotnet.native.8.0.7.onbqzz2wsk.js": "sha256-tFsxPBbhkdn6GKNBKvCRLzrfAHdyM86odYTe0MtrwMk="
     },
@@ -208,10 +208,10 @@
       "mscorlib.wasm": "sha256-fLbZiSHBNdpHoh4EgRqMaNP5NQyIK5TEj6AXFLqo8m8=",
       "netstandard.wasm": "sha256-d4xbAE8qrKq5euUoZHPO+jkYPjlCYBzUew45MKsYKic=",
       "System.Private.CoreLib.wasm": "sha256-8yi6NcX1lkNQgV4WKjnMBYIZyKh4P+OXnXVQmgxGZD4=",
-      "TaskManager_G.wasm": "sha256-o94uSmNf4ckXLykD03Lyk1UdzE13O6MdOPDyUzi6UjY="
+      "TaskManager_G.wasm": "sha256-YmA3mF4I4HWBdEObfO7Yf4uNgPCmAwEtaWW5xKGJJEk="
     },
     "pdb": {
-      "TaskManager_G.pdb": "sha256-4XbLiYPGWAw2MtQaRxyjQzL/C1J8NUzbkd7OMwWf4vg="
+      "TaskManager_G.pdb": "sha256-GpI5Ig8Y8JyyF2Yjyy1TvHQkXT1RHmxtXj7x6uZaW1o="
     }
   },
   "cacheBootResources": true,
