@@ -55,16 +55,12 @@
         </div>
     }
 
-   <div>
-    @if (!string.IsNullOrEmpty(ErrorMessage) )
-    {
-        <p style="color: red; font-weight:bold">Error: Message length exceeds 15 characters.</p>
-    }
-    
-</div>
-
-    
-
+    <div>
+        @if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            <p style="color: red; font-weight:bold">@ErrorMessage</p>
+        }
+    </div>
 
     <div class="task-list">
         @if (Tasks.Count >= 2)
@@ -121,12 +117,6 @@
         if (string.IsNullOrWhiteSpace(_TaskPriority))
         {
             ErrorMessage = "Task Priority must be selected!";
-            return;
-        }
-
-        if (_TaskContent.Length > 15)
-        {
-            ErrorMessage = "Task Content must be less than 15 characters!";
             return;
         }
 
